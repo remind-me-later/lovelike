@@ -20,7 +20,7 @@ class Canvas {
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
-class Character {
+class Entity {
     x;
     y;
     width;
@@ -40,13 +40,15 @@ class Character {
 }
 function main() {
     const canvas = new Canvas();
-    const character = new Character();
+    const rsquare = new Entity();
+    const floor = new Entity(0, canvas.height - 100, canvas.width, 100, "green");
     // function loop() {
     //   canvas.clear();
     //   character.draw(canvas);
     //   requestAnimationFrame(loop);
     // }
     canvas.clear();
-    character.draw(canvas);
+    floor.draw(canvas);
+    rsquare.draw(canvas);
 }
 main();

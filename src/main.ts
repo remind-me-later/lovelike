@@ -29,7 +29,7 @@ class Canvas {
   }
 }
 
-class Character {
+class Entity {
   x: number;
   y: number;
   width: number;
@@ -58,7 +58,8 @@ class Character {
 
 function main() {
   const canvas = new Canvas();
-  const character = new Character();
+  const rsquare = new Entity();
+  const floor = new Entity(0, canvas.height - 100, canvas.width, 100, "green");
 
   // function loop() {
   //   canvas.clear();
@@ -67,7 +68,8 @@ function main() {
   // }
 
   canvas.clear();
-  character.draw(canvas);
+  floor.draw(canvas);
+  rsquare.draw(canvas);
 }
 
 main();
