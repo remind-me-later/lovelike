@@ -1,64 +1,9 @@
-class Canvas {
-  private canvas: HTMLCanvasElement = document.querySelector(
-    "canvas"
-  ) as HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D = this.canvas.getContext(
-    "2d"
-  ) as CanvasRenderingContext2D;
-
-  constructor(width: number = 64 * 16, height: number = 64 * 9) {
-    this.canvas.width = width;
-    this.canvas.height = height;
-  }
-
-  get width() {
-    return this.canvas.width;
-  }
-
-  get height() {
-    return this.canvas.height;
-  }
-
-  get context() {
-    return this.ctx;
-  }
-
-  clear() {
-    this.context.fillStyle = "white";
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-}
-
-class Entity {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  color: string;
-
-  constructor(
-    x: number = 100,
-    y: number = 100,
-    width: number = 100,
-    height: number = 100,
-    color: string = "red"
-  ) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.color = color;
-  }
-
-  draw(canvas: Canvas) {
-    canvas.context.fillStyle = this.color;
-    canvas.context.fillRect(this.x, this.y, this.width, this.height);
-  }
-}
+import { Entity } from "./entity";
+import { Canvas } from "./canvas";
 
 function main() {
-  const canvas = new Canvas();
-  const rsquare = new Entity();
+  const canvas = new Canvas(64 * 16, 64 * 9);
+  const rsquare = new Entity(100, 100, 100, 100, "red");
   const floor = new Entity(0, canvas.height - 100, canvas.width, 100, "green");
 
   // function loop() {
