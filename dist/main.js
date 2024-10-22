@@ -42,11 +42,6 @@ function main() {
     const canvas = new Canvas();
     const rsquare = new Entity();
     const floor = new Entity(0, canvas.height - 100, canvas.width, 100, "green");
-    // function loop() {
-    //   canvas.clear();
-    //   character.draw(canvas);
-    //   requestAnimationFrame(loop);
-    // }
     canvas.clear();
     floor.draw(canvas);
     rsquare.draw(canvas);
