@@ -1,7 +1,7 @@
 export class Canvas {
     canvas = document.querySelector("canvas");
     ctx = this.canvas.getContext("2d");
-    constructor(width = 64 * 16, height = 64 * 9) {
+    constructor(width, height) {
         this.canvas.width = width;
         this.canvas.height = height;
     }

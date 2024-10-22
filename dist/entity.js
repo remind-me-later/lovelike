@@ -4,7 +4,7 @@ export class Entity {
     width;
     height;
     color;
-    constructor(x = 100, y = 100, width = 100, height = 100, color = "red") {
+    constructor(x, y, width, height, color) {
         this.x = x;
         this.y = y;
         this.width = width;
