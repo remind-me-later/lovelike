@@ -1,6 +1,4 @@
-import { Canvas } from "./canvas";
-
-export class Entity {
+export abstract class Entity {
   x: number;
   y: number;
   width: number;
@@ -21,8 +19,5 @@ export class Entity {
     this.color = color;
   }
 
-  draw(canvas: Canvas) {
-    canvas.context.fillStyle = this.color;
-    canvas.context.fillRect(this.x, this.y, this.width, this.height);
-  }
+  abstract draw(context: CanvasRenderingContext2D): void;
 }
