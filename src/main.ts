@@ -4,11 +4,13 @@ import { Size } from "./components/size";
 import { Velocity } from "./components/velocity";
 import { ECS } from "./ecs";
 import { Painter } from "./systems/painter";
+import { Physics } from "./systems/physics";
 
 function main() {
     let ecs = new ECS();
     let painter = new Painter(ecs);
     ecs.addSystem(painter);
+    ecs.addSystem(new Physics(ecs));
 
     let ball = ecs.addEntity();
     ecs.addComponent(ball, new Position(5, 5));
