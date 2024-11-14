@@ -40,7 +40,7 @@ export class Painter extends System {
             const x = components.get(Position).x;
             const y = components.get(Position).y;
 
-            this.ctx.fillStyle = "magenta";
+            this.ctx.fillStyle = "black";
             this.ctx.fillRect(x, y, width, height);
         });
     }
