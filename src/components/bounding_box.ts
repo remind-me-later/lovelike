@@ -1,6 +1,6 @@
 import { Component } from "./component";
 
-export class Size extends Component {
+export class BoundingBox extends Component {
     constructor(public width: number, public height: number) {
         super();
     }

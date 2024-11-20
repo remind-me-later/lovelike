@@ -11,7 +11,7 @@ export class ECS {
     private entitiesToDestroy = new Array<Entity>();
 
     public addEntity(): Entity {
-        let entity = this.nextEntityID;
+        const entity = this.nextEntityID;
         this.nextEntityID++;
         this.entities.set(entity, new ComponentContainer());
         return entity;
@@ -65,7 +65,7 @@ export class ECS {
 
         // Save system and set who it should track immediately.
         this.systems.set(system, new Set());
-        for (let entity of this.entities.keys()) {
+        for (const entity of this.entities.keys()) {
             this.checkES(entity, system);
         }
     }
@@ -93,7 +93,7 @@ export class ECS {
     ): void {
         // Update all systems. (Later, we'll add a way to specify the
         // update order.)
-        for (let [system, entities] of this.systems.entries()) {
+        for (const [system, entities] of this.systems.entries()) {
             system.update(entities);
         }
 
@@ -108,20 +108,20 @@ export class ECS {
 
     private destroyEntity(entity: Entity): void {
         this.entities.delete(entity);
-        for (let entities of this.systems.values()) {
+        for (const entities of this.systems.values()) {
             entities.delete(entity); // no-op if doesn't have it
         }
     }
 
     private checkE(entity: Entity): void {
-        for (let system of this.systems.keys()) {
+        for (const system of this.systems.keys()) {
             this.checkES(entity, system);
         }
     }
 
     private checkES(entity: Entity, system: System): void {
-        let have = this.entities.get(entity)!;
-        let need = system.componentsRequired;
+        const have = this.entities.get(entity)!;
+        const need = system.componentsRequired;
         if (have.hasAll(need)) {
             // should be in system
             this.systems.get(system)!.add(entity); // no-op if in

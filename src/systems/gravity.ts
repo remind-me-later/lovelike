@@ -1,15 +1,15 @@
-import { Gravity } from "../components/gravity";
+import { HasGravity } from "../components/has_gravity";
 import { Position } from "../components/position";
 import { Velocity } from "../components/velocity";
 import { ECS } from "../ecs";
 import { Entity } from "../entity";
 import { System } from "../system";
 
-export class Physics extends System {
+export class Gravity extends System {
     public componentsRequired: Set<Function> = new Set([
         Position,
         Velocity,
-        Gravity,
+        HasGravity,
     ]);
 
     constructor(public ecs: ECS) {
@@ -19,9 +19,9 @@ export class Physics extends System {
     public update(entities: Set<Entity>): void {
         entities.forEach((entity: Entity) => {
             const components = this.ecs.getComponents(entity);
-            const position = components.get(Position);
-            const velocity = components.get(Velocity);
-            const gravity = components.get(Gravity);
+            const position = components.get(Position)!;
+            const velocity = components.get(Velocity)!;
+            const gravity = components.get(HasGravity)!;
 
             velocity.dy += gravity.acceleration;
             position.x += velocity.dx;

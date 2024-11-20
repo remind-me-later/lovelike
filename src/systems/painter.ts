@@ -1,11 +1,11 @@
 import { Position } from "../components/position";
-import { Size } from "../components/size";
+import { BoundingBox } from "../components/bounding_box";
 import { ECS } from "../ecs";
 import { Entity } from "../entity";
 import { System } from "../system";
 
 export class Painter extends System {
-    public componentsRequired: Set<Function> = new Set([Size, Position]);
+    public componentsRequired: Set<Function> = new Set([BoundingBox, Position]);
 
     private canvas: HTMLCanvasElement = document.querySelector(
         "canvas",
@@ -35,10 +35,10 @@ export class Painter extends System {
 
         entities.forEach((entity: Entity) => {
             const components = this.ecs.getComponents(entity);
-            const height = components.get(Size).height;
-            const width = components.get(Size).width;
-            const x = components.get(Position).x;
-            const y = components.get(Position).y;
+            const height = components.get(BoundingBox)!.height;
+            const width = components.get(BoundingBox)!.width;
+            const x = components.get(Position)!.x;
+            const y = components.get(Position)!.y;
 
             this.ctx.fillStyle = "black";
             this.ctx.fillRect(x, y, width, height);

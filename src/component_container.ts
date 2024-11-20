@@ -11,8 +11,8 @@ export class ComponentContainer {
 
     public get<T extends Component>(
         componentClass: ComponentClass<T>,
-    ): T {
-        return this.map.get(componentClass) as T;
+    ): T | undefined {
+        return this.map.get(componentClass) as T | undefined;
     }
 
     public has(componentClass: Function): boolean {
