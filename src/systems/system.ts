@@ -9,11 +9,16 @@ export abstract class System {
     public abstract update(entities: Set<Entity>): void;
 
     // deno-lint-ignore ban-types
-    private componentsRequired: Set<Function> = new Set();
+    private _componentsRequired: Set<Function> = new Set();
+
+    // deno-lint-ignore ban-types
+    public get componentsRequired(): Set<Function> {
+        return this._componentsRequired;
+    }
 
     public addComponentRequired<T extends Component>(
         componentClass: ComponentClass<T>,
     ): void {
-        this.componentsRequired.add(componentClass);
+        this._componentsRequired.add(componentClass);
     }
 }

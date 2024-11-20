@@ -23,6 +23,18 @@ export class ComponentContainer {
         return this.map.has(componentClass);
     }
 
+    // deno-lint-ignore ban-types
+    public hasAll(
+        componentClasses: Set<Function>,
+    ): boolean {
+        for (const componentClass of componentClasses) {
+            if (!this.map.has(componentClass)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public delete<T extends Component>(
         componentClass: ComponentClass<T>,
     ): void {
