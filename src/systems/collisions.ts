@@ -1,5 +1,4 @@
 import { BoundingBox } from "../components/bounding_box";
-import { HasGravity } from "../components/has_gravity";
 import { Position } from "../components/position";
 import { Velocity } from "../components/velocity";
 import { ECS } from "../ecs";
@@ -43,7 +42,8 @@ export class Collisions extends System {
                     const velocity = components.get(Velocity);
 
                     if (velocity) {
-                        velocity.dx = 0;
+                        // FIXME: hack to allow the user to move the ball without it getting stuck
+                        // velocity.dx = 0;
                         velocity.dy = 0;
                         position.y = otherPosition.y - boundingBox.height;
                     }
