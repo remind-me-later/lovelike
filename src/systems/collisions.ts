@@ -6,7 +6,7 @@ import { ECS } from "../ecs";
 import { Entity } from "../entity";
 import { System } from "./system";
 
-export class CollisionDetection extends System {
+export class Collisions extends System {
     constructor(public ecs: ECS) {
         super();
 
@@ -41,14 +41,10 @@ export class CollisionDetection extends System {
                     position.y + boundingBox.height > otherPosition.y
                 ) {
                     const velocity = components.get(Velocity);
-                    const gravity = components.get(HasGravity);
 
                     if (velocity) {
                         velocity.dx = 0;
                         velocity.dy = 0;
-                    }
-
-                    if (gravity) {
                         position.y = otherPosition.y - boundingBox.height;
                     }
                 }

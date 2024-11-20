@@ -5,14 +5,14 @@ import { Velocity } from "./components/velocity";
 import { ECS } from "./ecs";
 import { Painter } from "./systems/painter";
 import { Gravity } from "./systems/gravity";
-import { CollisionDetection } from "./systems/collisionDetection";
+import { Collisions } from "./systems/collisions";
 
 function main() {
     const ecs = new ECS();
     const painter = new Painter(ecs);
     ecs.addSystem(painter);
     ecs.addSystem(new Gravity(ecs));
-    ecs.addSystem(new CollisionDetection(ecs));
+    ecs.addSystem(new Collisions(ecs));
 
     const ball = ecs.addEntity();
     ecs.addComponent(ball, new Position(5, 5));
