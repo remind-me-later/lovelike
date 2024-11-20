@@ -1,8 +1,10 @@
 import { Component } from "./components/component";
 
-type ComponentClass<T extends Component> = new (...args: any[]) => T;
+// deno-lint-ignore no-explicit-any
+export type ComponentClass<T extends Component> = new (...args: any[]) => T;
 
 export class ComponentContainer {
+    // deno-lint-ignore ban-types
     private map = new Map<Function, Component>();
 
     public add(component: Component): void {
@@ -15,20 +17,15 @@ export class ComponentContainer {
         return this.map.get(componentClass) as T | undefined;
     }
 
-    public has(componentClass: Function): boolean {
+    public has<T extends Component>(
+        componentClass: ComponentClass<T>,
+    ): boolean {
         return this.map.has(componentClass);
     }
 
-    public hasAll(componentClasses: Iterable<Function>): boolean {
-        for (let cls of componentClasses) {
-            if (!this.map.has(cls)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public delete(componentClass: Function): void {
+    public delete<T extends Component>(
+        componentClass: ComponentClass<T>,
+    ): void {
         this.map.delete(componentClass);
     }
 }

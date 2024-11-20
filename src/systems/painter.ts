@@ -2,11 +2,9 @@ import { Position } from "../components/position";
 import { BoundingBox } from "../components/bounding_box";
 import { ECS } from "../ecs";
 import { Entity } from "../entity";
-import { System } from "../system";
+import { System } from "./system";
 
 export class Painter extends System {
-    public componentsRequired: Set<Function> = new Set([BoundingBox, Position]);
-
     private canvas: HTMLCanvasElement = document.querySelector(
         "canvas",
     ) as HTMLCanvasElement;
@@ -17,6 +15,10 @@ export class Painter extends System {
 
     constructor(public ecs: ECS) {
         super();
+
+        this.addComponentRequired(Position);
+        this.addComponentRequired(BoundingBox);
+
         this.canvas.width = 800;
         this.canvas.height = 600;
     }

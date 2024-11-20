@@ -4,16 +4,14 @@ import { Position } from "../components/position";
 import { Velocity } from "../components/velocity";
 import { ECS } from "../ecs";
 import { Entity } from "../entity";
-import { System } from "../system";
+import { System } from "./system";
 
 export class CollisionDetection extends System {
-    public componentsRequired: Set<Function> = new Set([
-        Position,
-        BoundingBox,
-    ]);
-
     constructor(public ecs: ECS) {
         super();
+
+        this.addComponentRequired(Position);
+        this.addComponentRequired(BoundingBox);
     }
 
     public update(entities: Set<Entity>): void {

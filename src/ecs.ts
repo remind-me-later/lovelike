@@ -1,7 +1,7 @@
-import { ComponentContainer } from "./component_container";
+import { ComponentClass, ComponentContainer } from "./component_container";
 import { Component } from "./components/component";
 import { Entity } from "./entity";
-import { System } from "./system";
+import { System } from "./systems/system";
 
 export class ECS {
     private entities = new Map<Entity, ComponentContainer>();
@@ -38,9 +38,9 @@ export class ECS {
         return this.entities.get(entity)!;
     }
 
-    public removeComponent(
+    public removeComponent<T extends Component>(
         entity: Entity,
-        componentClass: Function,
+        componentClass: ComponentClass<T>,
     ): void {
         this.entities.get(entity)!.delete(componentClass);
         this.checkE(entity);
