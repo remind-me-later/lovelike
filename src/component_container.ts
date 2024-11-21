@@ -1,13 +1,12 @@
 import { Component } from "./components/component";
 
-// deno-lint-ignore no-explicit-any
-export type ComponentClass<T extends Component> = new (...args: any[]) => T;
+export type ComponentClass<T extends Component> = () => T;
 
 export class ComponentContainer {
     // deno-lint-ignore ban-types
     private map = new Map<Function, Component>();
 
-    public add(component: Component): void {
+    public add<T extends Component>(component: T): void {
         this.map.set(component.constructor, component);
     }
 
