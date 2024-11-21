@@ -1,9 +1,9 @@
-import { BoundingBox, Side } from "../components/bounding_box";
-import { Position } from "../components/position";
-import { Velocity } from "../components/velocity";
-import { ECS } from "../ecs";
-import { Entity } from "../entity";
-import { System } from "./system";
+import { BoundingBox, Side } from "../components/bounding_box.ts";
+import { Position } from "../components/position.ts";
+import { Velocity } from "../components/velocity.ts";
+import { ECS } from "../ecs.ts";
+import { Entity } from "../entity.ts";
+import { System } from "./system.ts";
 
 export class Collisions extends System {
     constructor(public ecs: ECS) {

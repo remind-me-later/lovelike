@@ -1,8 +1,8 @@
-import { Position } from "../components/position";
-import { Velocity } from "../components/velocity";
-import { ECS } from "../ecs";
-import { Entity } from "../entity";
-import { System } from "./system";
+import { Position } from "../components/position.ts";
+import { Velocity } from "../components/velocity.ts";
+import { ECS } from "../ecs.ts";
+import { Entity } from "../entity.ts";
+import { System } from "./system.ts";
 
 export class Movement extends System {
     constructor(public ecs: ECS) {

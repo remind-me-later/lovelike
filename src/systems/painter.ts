@@ -1,8 +1,8 @@
-import { Position } from "../components/position";
-import { BoundingBox } from "../components/bounding_box";
-import { ECS } from "../ecs";
-import { Entity } from "../entity";
-import { System } from "./system";
+import { Position } from "../components/position.ts";
+import { BoundingBox } from "../components/bounding_box.ts";
+import { ECS } from "../ecs.ts";
+import { Entity } from "../entity.ts";
+import { System } from "./system.ts";
 
 export class Painter extends System {
     private canvas: HTMLCanvasElement = document.querySelector(

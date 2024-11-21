@@ -1,4 +1,4 @@
-import { Component } from "./component";
+import { Component } from "./component.ts";
 
 // Position components indicates the center of an entity
 export class Position extends Component {

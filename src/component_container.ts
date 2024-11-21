@@ -1,4 +1,4 @@
-import { Component } from "./components/component";
+import { Component } from "./components/component.ts";
 
 // deno-lint-ignore no-explicit-any
 export type ComponentClass<T extends Component> = new (...args: any[]) => T;

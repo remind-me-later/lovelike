@@ -1,10 +1,10 @@
-import { BoundingBox } from "../components/bounding_box";
-import { Controllable } from "../components/controllable";
-import { Velocity } from "../components/velocity";
-import { ECS } from "../ecs";
-import { Entity } from "../entity";
-import { RingBuffer } from "../util/ring_buffer";
-import { System } from "./system";
+import { BoundingBox } from "../components/bounding_box.ts";
+import { Controllable } from "../components/controllable.ts";
+import { Velocity } from "../components/velocity.ts";
+import { ECS } from "../ecs.ts";
+import { Entity } from "../entity.ts";
+import { RingBuffer } from "../util/ring_buffer.ts";
+import { System } from "./system.ts";
 
 enum Direction {
     Up = "ArrowUp",

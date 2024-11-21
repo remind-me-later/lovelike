@@ -1,7 +1,6 @@
 {
   "version": "4",
   "specifiers": {
-    "npm:typescript@~5.6.2": "5.6.3",
     "npm:vite@^5.4.10": "5.4.11"
   },
   "npm": {
@@ -204,9 +203,6 @@
     "source-map-js@1.2.1": {
       "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="
     },
-    "typescript@5.6.3": {
-      "integrity": "sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw=="
-    },
     "vite@5.4.11": {
       "integrity": "sha512-c7jFQRklXua0mTzneGW9QVyxFjUgwcihC4bXEtujIo2ouWCe1Ajt/amn2PCxYnhYfd5k09JX3SB7OYWFKYqj8Q==",
       "dependencies": [
@@ -220,7 +216,6 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:typescript@~5.6.2",
         "npm:vite@^5.4.10"
       ]
     }

@@ -1,0 +1,17 @@
+{
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "files": ["dist"],
+    "compilerOptions": {
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "lib": ["esnext", "dom"],
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true
+    }
+}
