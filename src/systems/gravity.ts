@@ -5,13 +5,16 @@ import { Entity } from "../entity.ts";
 import { System } from "./system.ts";
 
 export class Gravity extends System {
-    constructor(public ecs: ECS) {
+    public override readonly componentsRequired = new Set([
+        Velocity,
+        HasGravity,
+    ]);
+
+    constructor(public override readonly ecs: ECS) {
         super();
-        this.addComponentRequired(Velocity);
-        this.addComponentRequired(HasGravity);
     }
 
-    public update(entities: Set<Entity>): void {
+    public override update(entities: Set<Entity>): void {
         entities.forEach((entity: Entity) => {
             const components = this.ecs.getComponents(entity);
             const velocity = components.get(Velocity)!;

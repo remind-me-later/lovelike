@@ -13,11 +13,13 @@ export class Painter extends System {
         "2d",
     ) as CanvasRenderingContext2D;
 
-    constructor(public ecs: ECS) {
-        super();
+    public override readonly componentsRequired = new Set([
+        Position,
+        BoundingBox,
+    ]);
 
-        this.addComponentRequired(Position);
-        this.addComponentRequired(BoundingBox);
+    constructor(public override readonly ecs: ECS) {
+        super();
 
         this.canvas.width = 800;
         this.canvas.height = 600;
@@ -31,7 +33,7 @@ export class Painter extends System {
         return this.canvas.height;
     }
 
-    public update(entities: Set<Entity>): void {
+    public override update(entities: Set<Entity>): void {
         this.ctx.fillStyle = "white";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 

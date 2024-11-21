@@ -6,14 +6,16 @@ import { Entity } from "../entity.ts";
 import { System } from "./system.ts";
 
 export class Collisions extends System {
-    constructor(public ecs: ECS) {
-        super();
+    public override readonly componentsRequired = new Set([
+        Position,
+        BoundingBox,
+    ]);
 
-        this.addComponentRequired(Position);
-        this.addComponentRequired(BoundingBox);
+    constructor(public override readonly ecs: ECS) {
+        super();
     }
 
-    public update(entities: Set<Entity>): void {
+    public override update(entities: Set<Entity>): void {
         // Check for collisions
         const entitiesArray = Array.from(entities);
 

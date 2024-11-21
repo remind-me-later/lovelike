@@ -1,2 +1,1 @@
-export abstract class Component {
-}
+export abstract class Component {}

@@ -14,18 +14,22 @@ enum Direction {
 }
 
 export class Controller extends System {
-    private queue: RingBuffer<Direction> = new RingBuffer<Direction>(10);
+    public override readonly componentsRequired = new Set([
+        BoundingBox,
+        Velocity,
+    ]);
 
-    constructor(public ecs: ECS) {
+    private readonly queue: RingBuffer<Direction> = new RingBuffer<Direction>(
+        10,
+    );
+
+    constructor(public override readonly ecs: ECS) {
         super();
-
-        this.addComponentRequired(BoundingBox);
-        this.addComponentRequired(Velocity);
 
         globalThis.addEventListener("keydown", this.keyDownListener.bind(this));
     }
 
-    public update(entities: Set<Entity>): void {
+    public override update(entities: Set<Entity>): void {
         entities.forEach((entity: Entity) => {
             const components = this.ecs.getComponents(entity);
             const velocity = components.get(Velocity)!;

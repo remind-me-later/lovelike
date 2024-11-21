@@ -5,13 +5,13 @@ import { Entity } from "../entity.ts";
 import { System } from "./system.ts";
 
 export class Movement extends System {
-    constructor(public ecs: ECS) {
+    public override readonly componentsRequired = new Set([Position, Velocity]);
+
+    constructor(public override readonly ecs: ECS) {
         super();
-        this.addComponentRequired(Position);
-        this.addComponentRequired(Velocity);
     }
 
-    public update(entities: Set<Entity>): void {
+    public override update(entities: Set<Entity>): void {
         entities.forEach((entity: Entity) => {
             const components = this.ecs.getComponents(entity);
             const position = components.get(Position)!;
