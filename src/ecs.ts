@@ -6,6 +6,8 @@ import { System } from "./systems/system.ts";
 export class ECS {
     private entities = new Map<Entity, ComponentContainer>();
     private systems = new Map<System, Set<Entity>>();
+    private priorities = new Array<number>();
+    private updateMap = new Map<number, Set<System>>();
 
     private nextEntityID = 0;
     private entitiesToDestroy = new Array<Entity>();
@@ -48,26 +50,31 @@ export class ECS {
 
     // API: Systems
 
-    public addSystem(system: System): void {
-        // Checking invariant: systems should not have an empty
-        // Components list, or they'll run on every entity. Simply remove
-        // or special case this check if you do want a System that runs
-        // on everything.
+    public addSystem(priority: number, system: System): void {
         if (system.componentsRequired.size == 0) {
             console.warn("System not added: empty Components list.");
             console.warn(system);
             return;
         }
 
-        // Give system a reference to the ECS so it can actually do
-        // anything.
-        system.ecs = this;
-
-        // Save system and set who it should track immediately.
         this.systems.set(system, new Set());
         for (const entity of this.entities.keys()) {
             this.checkES(entity, system);
         }
+
+        this.priorities = Array.from(
+            (new Set(this.priorities)).add(priority),
+        );
+
+        this.priorities.sort((a: number, b: number) => {
+            return a - b;
+        });
+
+        if (!this.updateMap.has(priority)) {
+            this.updateMap.set(priority, new Set<System>());
+        }
+
+        this.updateMap.get(priority)!.add(system);
     }
 
     /**
@@ -87,31 +94,30 @@ export class ECS {
      * updates all Systems, then destroys any Entities that were marked
      * for removal.
      */
-    public update(
-        _deltaTime: number,
-        // later we'll add a way to specify the update order
-    ): void {
-        // Update all systems. (Later, we'll add a way to specify the
-        // update order.)
-        for (const [system, entities] of this.systems.entries()) {
-            system.update(entities);
+    public update(_deltaTime: number): void {
+        // Call update on all systems in priority order.
+        for (const priority of this.priorities) {
+            const systems = this.updateMap.get(priority)!;
+            for (const sys of systems.values()) {
+                sys.update(this.systems.get(sys)!);
+            }
         }
 
         // Remove any entities that were marked for deletion during the
         // update.
-        while (this.entitiesToDestroy.length > 0) {
-            this.destroyEntity(this.entitiesToDestroy.pop()!);
-        }
+        // while (this.entitiesToDestroy.length > 0) {
+        //     this.destroyEntity(this.entitiesToDestroy.pop()!);
+        // }
     }
 
     // Private methods for doing internal state checks and mutations.
 
-    private destroyEntity(entity: Entity): void {
-        this.entities.delete(entity);
-        for (const entities of this.systems.values()) {
-            entities.delete(entity); // no-op if doesn't have it
-        }
-    }
+    // private destroyEntity(entity: Entity): void {
+    //     this.entities.delete(entity);
+    //     for (const entities of this.systems.values()) {
+    //         entities.delete(entity); // no-op if doesn't have it
+    //     }
+    // }
 
     private checkE(entity: Entity): void {
         for (const system of this.systems.keys()) {

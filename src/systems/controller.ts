@@ -1,5 +1,6 @@
 import { BoundingBox } from "../components/bounding_box.ts";
 import { Controllable } from "../components/controllable.ts";
+import { Position } from "../components/position.ts";
 import { Velocity } from "../components/velocity.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
@@ -21,6 +22,7 @@ export class Controller extends System {
     public override readonly componentsRequired = new Set([
         BoundingBox,
         Velocity,
+        Position,
     ]);
 
     private upKeyState: State = State.Released;
@@ -29,7 +31,7 @@ export class Controller extends System {
     private rightKeyState: State = State.Released;
 
     constructor(public override readonly ecs: ECS) {
-        super();
+        super(ecs);
 
         globalThis.addEventListener(
             "keydown",
@@ -47,14 +49,25 @@ export class Controller extends System {
             const components = this.ecs.getComponents(entity);
             const velocity = components.get(Velocity)!;
             const controllable = components.get(Controllable)!;
+            // const box = components.get(BoundingBox)!;
+            // const pos = components.get(Position)!;
 
-            if (this.upKeyState === State.Pressed) {
+            if (
+                this.upKeyState === State.Pressed
+                // box.collidingBottom == true
+            ) {
                 velocity.dy = -controllable.yspeed;
-            } else if (this.downKeyState === State.Pressed) {
+            }
+
+            if (this.downKeyState === State.Pressed) {
                 velocity.dy = controllable.yspeed;
-            } else if (this.leftKeyState === State.Pressed) {
+            }
+
+            if (this.leftKeyState === State.Pressed) {
                 velocity.dx = -controllable.xspeed;
-            } else if (this.rightKeyState === State.Pressed) {
+            }
+
+            if (this.rightKeyState === State.Pressed) {
                 velocity.dx = controllable.xspeed;
             }
         });

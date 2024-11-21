@@ -11,7 +11,7 @@ export class Gravity extends System {
     ]);
 
     constructor(public override readonly ecs: ECS) {
-        super();
+        super(ecs);
     }
 
     public override update(entities: Set<Entity>): void {

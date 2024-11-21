@@ -1,14 +1,10 @@
 import { Component } from "./component.ts";
 
-export enum Side {
-    Top,
-    Right,
-    Bottom,
-    Left,
-}
-
 export class BoundingBox extends Component {
-    public collidingSide: Side | undefined;
+    public collidingLeft = false;
+    public collidingRight = false;
+    public collidingTop = false;
+    public collidingBottom = false;
 
     constructor(public width: number, public height: number) {
         super();

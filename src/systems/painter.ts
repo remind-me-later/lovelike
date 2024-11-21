@@ -3,6 +3,8 @@ import { BoundingBox } from "../components/bounding_box.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
 import { System } from "./system.ts";
+import { Controllable } from "../components/controllable.ts";
+import { Velocity } from "../components/velocity.ts";
 
 export class Painter extends System {
     private canvas: HTMLCanvasElement = document.querySelector(
@@ -19,7 +21,7 @@ export class Painter extends System {
     ]);
 
     constructor(public override readonly ecs: ECS) {
-        super();
+        super(ecs);
 
         this.canvas.width = 800;
         this.canvas.height = 600;
@@ -39,15 +41,63 @@ export class Painter extends System {
 
         entities.forEach((entity: Entity) => {
             const components = this.ecs.getComponents(entity);
-            const height = components.get(BoundingBox)!.height;
-            const width = components.get(BoundingBox)!.width;
-            const x = components.get(Position)!.x;
-            const y = components.get(Position)!.y;
+            const box = components.get(BoundingBox)!;
+            const height = box.height;
+            const width = box.width;
+            const pos = components.get(Position)!;
+            const x = pos.x;
+            const y = pos.y;
 
             this.ctx.fillStyle = "black";
 
             // (x, y) coordinates are at the center of the rectangle
             this.ctx.fillRect(x - width / 2, y - height / 2, width, height);
+
+            // Draw colliding sides of bounding box in red, fill inside our bounding box in black
+            this.ctx.strokeStyle = "red";
+
+            if (box.collidingRight) {
+                this.ctx.strokeRect(x + width / 2, y - height / 2, 1, height);
+            }
+
+            if (box.collidingLeft) {
+                this.ctx.strokeRect(x - width / 2, y - height / 2, 1, height);
+            }
+
+            if (box.collidingTop) {
+                this.ctx.strokeRect(x - width / 2, y - height / 2, width, 1);
+            }
+
+            if (box.collidingBottom) {
+                this.ctx.strokeRect(x - width / 2, y + height / 2, width, 1);
+            }
+
+            // Draw center of bounding box in green
+            this.ctx.fillStyle = "green";
+            this.ctx.fillRect(x - 2, y - 2, 4, 4);
+
+            // If we are controllable, draw text with info
+            if (components.get(Controllable)) {
+                const velocity = components.get(Velocity)!;
+
+                this.ctx.fillStyle = "black";
+                // mono-spaced font
+                this.ctx.font = "12px monospace";
+
+                // Write position and velocity of player, rounded to 2 decimal places
+                this.ctx.fillText(
+                    "Position: " + pos.x.toFixed(2) + ", " + pos.y.toFixed(2),
+                    this.canvas.width - 250,
+                    20,
+                );
+
+                this.ctx.fillText(
+                    "Velocity: " + velocity.dx.toFixed(2) + ", " +
+                        velocity.dy.toFixed(2),
+                    this.canvas.width - 250,
+                    40,
+                );
+            }
         });
     }
 }
