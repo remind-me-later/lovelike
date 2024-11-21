@@ -1,6 +1,7 @@
 import { Component } from "./components/component";
 
-export type ComponentClass<T extends Component> = () => T;
+// deno-lint-ignore no-explicit-any
+export type ComponentClass<T extends Component> = new (...args: any[]) => T;
 
 export class ComponentContainer {
     // deno-lint-ignore ban-types
