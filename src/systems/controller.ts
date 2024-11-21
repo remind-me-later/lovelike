@@ -3,7 +3,6 @@ import { Controllable } from "../components/controllable.ts";
 import { Velocity } from "../components/velocity.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
-import { RingBuffer } from "../util/ring_buffer.ts";
 import { System } from "./system.ts";
 
 enum Direction {
@@ -13,20 +12,34 @@ enum Direction {
     Right = "ArrowRight",
 }
 
+enum State {
+    Pressed,
+    Released,
+}
+
 export class Controller extends System {
     public override readonly componentsRequired = new Set([
         BoundingBox,
         Velocity,
     ]);
 
-    private readonly queue: RingBuffer<Direction> = new RingBuffer<Direction>(
-        10,
-    );
+    private upKeyState: State = State.Released;
+    private downKeyState: State = State.Released;
+    private leftKeyState: State = State.Released;
+    private rightKeyState: State = State.Released;
 
     constructor(public override readonly ecs: ECS) {
         super();
 
-        globalThis.addEventListener("keydown", this.keyDownListener.bind(this));
+        globalThis.addEventListener(
+            "keydown",
+            this.keyPressListener.bind(this),
+        );
+
+        globalThis.addEventListener(
+            "keyup",
+            this.keyReleaseListener.bind(this),
+        );
     }
 
     public override update(entities: Set<Entity>): void {
@@ -35,40 +48,48 @@ export class Controller extends System {
             const velocity = components.get(Velocity)!;
             const controllable = components.get(Controllable)!;
 
-            while (this.queue.size() > 0) {
-                const direction = this.queue.pop();
-
-                switch (direction) {
-                    case Direction.Up:
-                        velocity.dy = -controllable.yspeed;
-                        break;
-                    case Direction.Down:
-                        velocity.dy = controllable.yspeed;
-                        break;
-                    case Direction.Left:
-                        velocity.dx = -controllable.xspeed;
-                        break;
-                    case Direction.Right:
-                        velocity.dx = controllable.xspeed;
-                        break;
-                }
+            if (this.upKeyState === State.Pressed) {
+                velocity.dy = -controllable.yspeed;
+            } else if (this.downKeyState === State.Pressed) {
+                velocity.dy = controllable.yspeed;
+            } else if (this.leftKeyState === State.Pressed) {
+                velocity.dx = -controllable.xspeed;
+            } else if (this.rightKeyState === State.Pressed) {
+                velocity.dx = controllable.xspeed;
             }
         });
     }
 
-    private keyDownListener(event: KeyboardEvent): void {
+    private keyPressListener(event: KeyboardEvent): void {
         switch (event.key) {
             case Direction.Up:
-                this.queue.push(Direction.Up);
+                this.upKeyState = State.Pressed;
                 break;
             case Direction.Down:
-                this.queue.push(Direction.Down);
+                this.downKeyState = State.Pressed;
                 break;
             case Direction.Left:
-                this.queue.push(Direction.Left);
+                this.leftKeyState = State.Pressed;
                 break;
             case Direction.Right:
-                this.queue.push(Direction.Right);
+                this.rightKeyState = State.Pressed;
+                break;
+        }
+    }
+
+    private keyReleaseListener(event: KeyboardEvent): void {
+        switch (event.key) {
+            case Direction.Up:
+                this.upKeyState = State.Released;
+                break;
+            case Direction.Down:
+                this.downKeyState = State.Released;
+                break;
+            case Direction.Left:
+                this.leftKeyState = State.Released;
+                break;
+            case Direction.Right:
+                this.rightKeyState = State.Released;
                 break;
         }
     }
