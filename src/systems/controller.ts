@@ -64,16 +64,16 @@ export class Controller extends System {
 
     private keyDownListener(event: KeyboardEvent): void {
         switch (event.key) {
-            case "ArrowUp":
+            case Direction.Up:
                 this.queue.enqueue(Direction.Up);
                 break;
-            case "ArrowDown":
+            case Direction.Down:
                 this.queue.enqueue(Direction.Down);
                 break;
-            case "ArrowLeft":
+            case Direction.Left:
                 this.queue.enqueue(Direction.Left);
                 break;
-            case "ArrowRight":
+            case Direction.Right:
                 this.queue.enqueue(Direction.Right);
                 break;
         }

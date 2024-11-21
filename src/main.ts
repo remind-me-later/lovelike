@@ -14,20 +14,26 @@ function main() {
     const ecs = new ECS();
     const painter = new Painter(ecs);
     ecs.addSystem(painter);
-    ecs.addSystem(new Gravity(ecs));
-    ecs.addSystem(new Movement(ecs));
-    ecs.addSystem(new Collisions(ecs));
+
     ecs.addSystem(new Controller(ecs));
 
+    // Order matters here
+    ecs.addSystem(new Movement(ecs));
+    ecs.addSystem(new Collisions(ecs));
+    ecs.addSystem(new Gravity(ecs));
+
     const ball = ecs.addEntity();
-    ecs.addComponent(ball, new Position(5, 5));
+    ecs.addComponent(ball, new Position(100, 10));
     ecs.addComponent(ball, new BoundingBox(10, 10));
     ecs.addComponent(ball, new Velocity(0, 0));
     ecs.addComponent(ball, new HasGravity(0.5));
     ecs.addComponent(ball, new Controllable(3));
 
     const floor = ecs.addEntity();
-    ecs.addComponent(floor, new Position(0, painter.height() - 100));
+    ecs.addComponent(
+        floor,
+        new Position(painter.width() / 2, painter.height() - 50),
+    );
     ecs.addComponent(floor, new BoundingBox(painter.width(), 100));
 
     let lastTime = 0;

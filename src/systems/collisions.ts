@@ -1,4 +1,4 @@
-import { BoundingBox } from "../components/bounding_box";
+import { BoundingBox, Side } from "../components/bounding_box";
 import { Position } from "../components/position";
 import { Velocity } from "../components/velocity";
 import { ECS } from "../ecs";
@@ -21,9 +21,15 @@ export class Collisions extends System {
             const entity = entitiesArray[i];
             const components = this.ecs.getComponents(entity);
             const position = components.get(Position)!;
-            const boundingBox = components.get(BoundingBox)!;
+            const box = components.get(BoundingBox)!;
+            const velocity = components.get(Velocity);
 
-            for (let j = i + 1; j < entitiesArray.length; j++) {
+            if (!velocity) {
+                // We are immovable
+                continue;
+            }
+
+            for (let j = 0; j < entitiesArray.length; j++) {
                 if (i === j) {
                     continue;
                 }
@@ -31,21 +37,50 @@ export class Collisions extends System {
                 const otherEntity = entitiesArray[j];
                 const otherComponents = this.ecs.getComponents(otherEntity);
                 const otherPosition = otherComponents.get(Position)!;
-                const otherBoundingBox = otherComponents.get(BoundingBox)!;
+                const otherBox = otherComponents.get(BoundingBox)!;
 
-                if (
-                    position.x < otherPosition.x + otherBoundingBox.width &&
-                    position.x + boundingBox.width > otherPosition.x &&
-                    position.y < otherPosition.y + otherBoundingBox.height &&
-                    position.y + boundingBox.height > otherPosition.y
-                ) {
-                    const velocity = components.get(Velocity);
+                // Check on which side of 'entity' we are colliding against 'otherEntity'
+                // remember that (x, y) coordinates are at the center of the rectangle
+                const dx = otherPosition.x - position.x;
+                const dy = otherPosition.y - position.y;
 
-                    if (velocity) {
-                        // FIXME: hack to allow the user to move the ball without it getting stuck
-                        // velocity.dx = 0;
+                const halfWidth = (box.width + otherBox.width) / 2;
+                const halfHeight = (box.height + otherBox.height) / 2;
+
+                if (Math.abs(dx) < halfWidth && Math.abs(dy) < halfHeight) {
+                    const overlapX = halfWidth - Math.abs(dx);
+                    const overlapY = halfHeight - Math.abs(dy);
+
+                    if (overlapX < overlapY) {
+                        if (dx > 0) {
+                            // Colliding from the left
+                            position.x -= overlapX;
+                            box.collidingSide = Side.Left;
+                        } else {
+                            // Colliding from the right
+                            position.x += overlapX;
+                            box.collidingSide = Side.Right;
+                        }
+
+                        velocity.dx = 0;
+
+                        // friction
+                        velocity.dy *= 0.97;
+                    } else {
+                        if (dy > 0) {
+                            // Colliding from the top
+                            position.y -= overlapY;
+                            box.collidingSide = Side.Top;
+                        } else {
+                            // Colliding from the bottom
+                            position.y += overlapY;
+                            box.collidingSide = Side.Bottom;
+                        }
+
                         velocity.dy = 0;
-                        position.y = otherPosition.y - boundingBox.height;
+
+                        // friction
+                        velocity.dx *= 0.97;
                     }
                 }
             }

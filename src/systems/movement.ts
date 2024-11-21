@@ -19,6 +19,10 @@ export class Movement extends System {
 
             position.x += velocity.dx;
             position.y += velocity.dy;
+
+            // Friction
+            velocity.dx *= 0.99;
+            velocity.dy *= 0.99;
         });
     }
 }

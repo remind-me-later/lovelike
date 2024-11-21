@@ -43,7 +43,9 @@ export class Painter extends System {
             const y = components.get(Position)!.y;
 
             this.ctx.fillStyle = "black";
-            this.ctx.fillRect(x, y, width, height);
+
+            // (x, y) coordinates are at the center of the rectangle
+            this.ctx.fillRect(x - width / 2, y - height / 2, width, height);
         });
     }
 }
