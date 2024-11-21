@@ -26,8 +26,8 @@ function main() {
     ecs.addComponent(ball, new Position(100, 10));
     ecs.addComponent(ball, new BoundingBox(10, 10));
     ecs.addComponent(ball, new Velocity(0, 0));
-    ecs.addComponent(ball, new HasGravity(0.5));
-    ecs.addComponent(ball, new Controllable(5));
+    ecs.addComponent(ball, new HasGravity());
+    ecs.addComponent(ball, new Controllable());
 
     const floor = ecs.addEntity();
     ecs.addComponent(
@@ -41,7 +41,10 @@ function main() {
     ecs.addComponent(leftWall, new BoundingBox(100, painter.height()));
 
     const rightWall = ecs.addEntity();
-    ecs.addComponent(rightWall, new Position(painter.width(), painter.height() / 2));
+    ecs.addComponent(
+        rightWall,
+        new Position(painter.width(), painter.height() / 2),
+    );
     ecs.addComponent(rightWall, new BoundingBox(100, painter.height()));
 
     const box = ecs.addEntity();

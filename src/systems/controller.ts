@@ -1,10 +1,8 @@
 import { BoundingBox } from "../components/bounding_box.ts";
 import { Controllable } from "../components/controllable.ts";
-import { Position } from "../components/position.ts";
 import { Velocity } from "../components/velocity.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
-import { MyMath } from "../util/math.ts";
 import { RingBuffer } from "../util/ring_buffer.ts";
 import { System } from "./system.ts";
 
@@ -19,7 +17,6 @@ export class Controller extends System {
     public override readonly componentsRequired = new Set([
         BoundingBox,
         Velocity,
-        Position,
     ]);
 
     private readonly queue: RingBuffer<Direction> = new RingBuffer<Direction>(
@@ -37,45 +34,25 @@ export class Controller extends System {
             const components = this.ecs.getComponents(entity);
             const velocity = components.get(Velocity)!;
             const controllable = components.get(Controllable)!;
-            const position = components.get(Position)!;
 
             while (this.queue.size() > 0) {
                 const direction = this.queue.pop();
 
                 switch (direction) {
                     case Direction.Up:
-                        velocity.dy = MyMath.clampAbs(
-                            velocity.dy - controllable.speed,
-                            controllable.speed,
-                        );
-
+                        velocity.dy = -controllable.yspeed;
                         break;
                     case Direction.Down:
-                        velocity.dy = MyMath.clampAbs(
-                            velocity.dy + controllable.speed,
-                            controllable.speed,
-                        );
-
+                        velocity.dy = controllable.yspeed;
                         break;
                     case Direction.Left:
-                        velocity.dx = MyMath.clampAbs(
-                            velocity.dx - controllable.speed,
-                            controllable.speed,
-                        );
-
+                        velocity.dx = -controllable.xspeed;
                         break;
                     case Direction.Right:
-                        velocity.dx = MyMath.clampAbs(
-                            velocity.dx + controllable.speed,
-                            controllable.speed,
-                        );
-
+                        velocity.dx = controllable.xspeed;
                         break;
                 }
             }
-
-            position.x += velocity.dx;
-            position.y += velocity.dy;
         });
     }
 

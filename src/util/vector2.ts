@@ -1,5 +1,5 @@
 export class Vector2 {
-    constructor(public x: number, public y: number) {
+    constructor(private x: number, private y: number) {
     }
 
     public add(other: Vector2): Vector2 {

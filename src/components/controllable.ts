@@ -1,8 +1,11 @@
 import { Component } from "./component.ts";
 
 export class Controllable extends Component {
-    constructor(public readonly speed: number = 5) {
+    constructor(
+        public readonly xspeed: number = 10,
+        public readonly yspeed: number = 15,
+    ) {
         super();
-        this.speed = speed;
+        this.xspeed = xspeed;
     }
 }
