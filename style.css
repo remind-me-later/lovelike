@@ -1,3 +1,8 @@
 body {
     background: wheat;
 }
+
+canvas {
+    display: block;
+    margin: 0 auto;
+}
