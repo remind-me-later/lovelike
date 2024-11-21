@@ -27,7 +27,7 @@ function main() {
     ecs.addComponent(ball, new BoundingBox(10, 10));
     ecs.addComponent(ball, new Velocity(0, 0));
     ecs.addComponent(ball, new HasGravity(0.5));
-    ecs.addComponent(ball, new Controllable(4));
+    ecs.addComponent(ball, new Controllable(5));
 
     const floor = ecs.addEntity();
     ecs.addComponent(
@@ -35,6 +35,18 @@ function main() {
         new Position(painter.width() / 2, painter.height() - 50),
     );
     ecs.addComponent(floor, new BoundingBox(painter.width(), 100));
+
+    const leftWall = ecs.addEntity();
+    ecs.addComponent(leftWall, new Position(0, painter.height() / 2));
+    ecs.addComponent(leftWall, new BoundingBox(100, painter.height()));
+
+    const rightWall = ecs.addEntity();
+    ecs.addComponent(rightWall, new Position(painter.width(), painter.height() / 2));
+    ecs.addComponent(rightWall, new BoundingBox(100, painter.height()));
+
+    const box = ecs.addEntity();
+    ecs.addComponent(box, new Position(200, painter.height() - 120));
+    ecs.addComponent(box, new BoundingBox(50, 50));
 
     let lastTime = 0;
     function update(time: number) {
