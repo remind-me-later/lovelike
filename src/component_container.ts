@@ -23,9 +23,8 @@ export class ComponentContainer {
         return this.map.has(componentClass);
     }
 
-    // deno-lint-ignore ban-types
     public hasAll(
-        componentClasses: Set<Function>,
+        componentClasses: Set<ComponentClass<Component>>,
     ): boolean {
         for (const componentClass of componentClasses) {
             if (!this.map.has(componentClass)) {

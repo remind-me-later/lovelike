@@ -16,18 +16,18 @@ function main() {
     ecs.addSystem(painter);
 
     ecs.addSystem(new Controller(ecs));
+    ecs.addSystem(new Gravity(ecs));
 
     // Order matters here
     ecs.addSystem(new Movement(ecs));
     ecs.addSystem(new Collisions(ecs));
-    ecs.addSystem(new Gravity(ecs));
 
     const ball = ecs.addEntity();
     ecs.addComponent(ball, new Position(100, 10));
     ecs.addComponent(ball, new BoundingBox(10, 10));
     ecs.addComponent(ball, new Velocity(0, 0));
     ecs.addComponent(ball, new HasGravity(0.5));
-    ecs.addComponent(ball, new Controllable(3));
+    ecs.addComponent(ball, new Controllable(4));
 
     const floor = ecs.addEntity();
     ecs.addComponent(

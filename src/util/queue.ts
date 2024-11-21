@@ -3,7 +3,7 @@ export class Queue<T> {
 
     constructor(private capacity: number = Infinity) {}
 
-    enqueue(item: T): void {
+    push(item: T): void {
         if (this.size() === this.capacity) {
             throw Error(
                 "Queue has reached max capacity, you cannot add more items",
@@ -12,7 +12,7 @@ export class Queue<T> {
         this.data.push(item);
     }
 
-    dequeue(): T | undefined {
+    pop(): T | undefined {
         return this.data.shift();
     }
 
