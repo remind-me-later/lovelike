@@ -4,18 +4,18 @@ import { Entity } from "./entity.ts";
 import { System } from "./systems/system.ts";
 
 export class ECS {
-	private entities = new Map<Entity, ComponentContainer>();
-	private systems = new Map<System, Set<Entity>>();
-	private priorities = new Array<number>();
-	private updateMap = new Map<number, Set<System>>();
+	#entities = new Map<Entity, ComponentContainer>();
+	#systems = new Map<System, Set<Entity>>();
+	#priorities = new Array<number>();
+	#updateMap = new Map<number, Set<System>>();
 
-	private nextEntityID = 0;
-	private entitiesToDestroy = new Array<Entity>();
+	#nextEntityID = 0;
+	#entitiesToDestroy = new Array<Entity>();
 
 	public addEntity(): Entity {
-		const entity = this.nextEntityID;
-		this.nextEntityID++;
-		this.entities.set(entity, new ComponentContainer());
+		const entity = this.#nextEntityID;
+		this.#nextEntityID++;
+		this.#entities.set(entity, new ComponentContainer());
 		return entity;
 	}
 
@@ -26,26 +26,26 @@ export class ECS {
 	 * others not.
 	 */
 	public removeEntity(entity: Entity): void {
-		this.entitiesToDestroy.push(entity);
+		this.#entitiesToDestroy.push(entity);
 	}
 
 	// API: Components
 
 	public addComponent(entity: Entity, component: Component): void {
-		this.entities.get(entity)?.add(component);
-		this.checkE(entity);
+		this.#entities.get(entity)?.add(component);
+		this.#checkE(entity);
 	}
 
 	public getComponents(entity: Entity): ComponentContainer {
-		return this.entities.get(entity)!;
+		return this.#entities.get(entity)!;
 	}
 
 	public removeComponent<T extends Component>(
 		entity: Entity,
 		componentClass: ComponentClass<T>,
 	): void {
-		this.entities.get(entity)!.delete(componentClass);
-		this.checkE(entity);
+		this.#entities.get(entity)!.delete(componentClass);
+		this.#checkE(entity);
 	}
 
 	// API: Systems
@@ -57,24 +57,24 @@ export class ECS {
 			return;
 		}
 
-		this.systems.set(system, new Set());
-		for (const entity of this.entities.keys()) {
-			this.checkES(entity, system);
+		this.#systems.set(system, new Set());
+		for (const entity of this.#entities.keys()) {
+			this.#checkES(entity, system);
 		}
 
-		this.priorities = Array.from(
-			(new Set(this.priorities)).add(priority),
+		this.#priorities = Array.from(
+			(new Set(this.#priorities)).add(priority),
 		);
 
-		this.priorities.sort((a: number, b: number) => {
+		this.#priorities.sort((a: number, b: number) => {
 			return a - b;
 		});
 
-		if (!this.updateMap.has(priority)) {
-			this.updateMap.set(priority, new Set<System>());
+		if (!this.#updateMap.has(priority)) {
+			this.#updateMap.set(priority, new Set<System>());
 		}
 
-		this.updateMap.get(priority)!.add(system);
+		this.#updateMap.get(priority)!.add(system);
 	}
 
 	/**
@@ -86,7 +86,7 @@ export class ECS {
 	 * API).
 	 */
 	public removeSystem(system: System): void {
-		this.systems.delete(system);
+		this.#systems.delete(system);
 	}
 
 	/**
@@ -96,10 +96,10 @@ export class ECS {
 	 */
 	public update(_deltaTime: number): void {
 		// Call update on all systems in priority order.
-		for (const priority of this.priorities) {
-			const systems = this.updateMap.get(priority)!;
+		for (const priority of this.#priorities) {
+			const systems = this.#updateMap.get(priority)!;
 			for (const sys of systems.values()) {
-				sys.update(this.systems.get(sys)!);
+				sys.update(this.#systems.get(sys)!);
 			}
 		}
 
@@ -112,28 +112,28 @@ export class ECS {
 
 	// Private methods for doing internal state checks and mutations.
 
-	// private destroyEntity(entity: Entity): void {
+	// #destroyEntity(entity: Entity): void {
 	//     this.entities.delete(entity);
 	//     for (const entities of this.systems.values()) {
 	//         entities.delete(entity); // no-op if doesn't have it
 	//     }
 	// }
 
-	private checkE(entity: Entity): void {
-		for (const system of this.systems.keys()) {
-			this.checkES(entity, system);
+	#checkE(entity: Entity): void {
+		for (const system of this.#systems.keys()) {
+			this.#checkES(entity, system);
 		}
 	}
 
-	private checkES(entity: Entity, system: System): void {
-		const have = this.entities.get(entity)!;
+	#checkES(entity: Entity, system: System): void {
+		const have = this.#entities.get(entity)!;
 		const need = system.componentsRequired;
 		if (have.hasAll(need)) {
 			// should be in system
-			this.systems.get(system)!.add(entity); // no-op if in
+			this.#systems.get(system)!.add(entity); // no-op if in
 		} else {
 			// should not be in system
-			this.systems.get(system)!.delete(entity); // no-op if out
+			this.#systems.get(system)!.delete(entity); // no-op if out
 		}
 	}
 }

@@ -2,27 +2,32 @@ import { MyMath } from "../util/math.ts";
 import { Component } from "./component.ts";
 
 export class Velocity extends Component {
+	#dx: number;
+	#dy: number;
+
 	constructor(
-		private _dx: number,
-		private _dy: number,
+		dx: number,
+		dy: number,
 		public readonly maxVelocity: number = 15,
 	) {
 		super();
+		this.#dx = MyMath.clampAbs(dx, this.maxVelocity);
+		this.#dy = MyMath.clampAbs(dy, this.maxVelocity);
 	}
 
 	get dx() {
-		return this._dx;
+		return this.#dx;
 	}
 
 	set dx(value: number) {
-		this._dx = MyMath.clampAbs(value, this.maxVelocity);
+		this.#dx = MyMath.clampAbs(value, this.maxVelocity);
 	}
 
 	get dy() {
-		return this._dy;
+		return this.#dy;
 	}
 
 	set dy(value: number) {
-		this._dy = MyMath.clampAbs(value, this.maxVelocity);
+		this.#dy = MyMath.clampAbs(value, this.maxVelocity);
 	}
 }

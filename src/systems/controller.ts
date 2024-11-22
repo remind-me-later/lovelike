@@ -25,22 +25,22 @@ export class Controller extends System {
 		Position,
 	]);
 
-	private upKeyState: State = State.Released;
-	private downKeyState: State = State.Released;
-	private leftKeyState: State = State.Released;
-	private rightKeyState: State = State.Released;
+	#upKeyState: State = State.Released;
+	#downKeyState: State = State.Released;
+	#leftKeyState: State = State.Released;
+	#rightKeyState: State = State.Released;
 
 	constructor(public override readonly ecs: ECS) {
 		super(ecs);
 
 		globalThis.addEventListener(
 			"keydown",
-			this.keyPressListener.bind(this),
+			this.#keyPressListener.bind(this),
 		);
 
 		globalThis.addEventListener(
 			"keyup",
-			this.keyReleaseListener.bind(this),
+			this.#keyReleaseListener.bind(this),
 		);
 	}
 
@@ -53,56 +53,56 @@ export class Controller extends System {
 			// const pos = components.get(Position)!;
 
 			if (
-				this.upKeyState === State.Pressed &&
+				this.#upKeyState === State.Pressed &&
 				box.collidingBottom == true
 			) {
 				velocity.dy = -controllable.yspeed;
 			}
 
-			if (this.downKeyState === State.Pressed) {
+			if (this.#downKeyState === State.Pressed) {
 				velocity.dy = controllable.yspeed;
 			}
 
-			if (this.leftKeyState === State.Pressed) {
+			if (this.#leftKeyState === State.Pressed) {
 				velocity.dx = -controllable.xspeed;
 			}
 
-			if (this.rightKeyState === State.Pressed) {
+			if (this.#rightKeyState === State.Pressed) {
 				velocity.dx = controllable.xspeed;
 			}
 		});
 	}
 
-	private keyPressListener(event: KeyboardEvent): void {
+	#keyPressListener(event: KeyboardEvent): void {
 		switch (event.key) {
 			case Direction.Up:
-				this.upKeyState = State.Pressed;
+				this.#upKeyState = State.Pressed;
 				break;
 			case Direction.Down:
-				this.downKeyState = State.Pressed;
+				this.#downKeyState = State.Pressed;
 				break;
 			case Direction.Left:
-				this.leftKeyState = State.Pressed;
+				this.#leftKeyState = State.Pressed;
 				break;
 			case Direction.Right:
-				this.rightKeyState = State.Pressed;
+				this.#rightKeyState = State.Pressed;
 				break;
 		}
 	}
 
-	private keyReleaseListener(event: KeyboardEvent): void {
+	#keyReleaseListener(event: KeyboardEvent): void {
 		switch (event.key) {
 			case Direction.Up:
-				this.upKeyState = State.Released;
+				this.#upKeyState = State.Released;
 				break;
 			case Direction.Down:
-				this.downKeyState = State.Released;
+				this.#downKeyState = State.Released;
 				break;
 			case Direction.Left:
-				this.leftKeyState = State.Released;
+				this.#leftKeyState = State.Released;
 				break;
 			case Direction.Right:
-				this.rightKeyState = State.Released;
+				this.#rightKeyState = State.Released;
 				break;
 		}
 	}
