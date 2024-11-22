@@ -36,6 +36,9 @@ export class Painter extends System {
     }
 
     public override update(entities: Set<Entity>): void {
+        // clear canvas
+        // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
         this.ctx.fillStyle = "white";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -53,23 +56,44 @@ export class Painter extends System {
             // (x, y) coordinates are at the center of the rectangle
             this.ctx.fillRect(x - width / 2, y - height / 2, width, height);
 
-            // Draw colliding sides of bounding box in red, fill inside our bounding box in black
-            this.ctx.strokeStyle = "red";
+            // Draw colliding sides of bounding box
+            this.ctx.fillStyle = "magenta";
+            const lineWidth = 2;
 
             if (box.collidingRight) {
-                this.ctx.strokeRect(x + width / 2, y - height / 2, 1, height);
+                this.ctx.fillRect(
+                    x + width / 2 - lineWidth,
+                    y - height / 2,
+                    lineWidth,
+                    height,
+                );
             }
 
             if (box.collidingLeft) {
-                this.ctx.strokeRect(x - width / 2, y - height / 2, 1, height);
+                this.ctx.fillRect(
+                    x - width / 2,
+                    y - height / 2,
+                    lineWidth,
+                    height,
+                );
             }
 
             if (box.collidingTop) {
-                this.ctx.strokeRect(x - width / 2, y - height / 2, width, 1);
+                this.ctx.fillRect(
+                    x - width / 2,
+                    y - height / 2,
+                    width,
+                    lineWidth,
+                );
             }
 
             if (box.collidingBottom) {
-                this.ctx.strokeRect(x - width / 2, y + height / 2, width, 1);
+                this.ctx.fillRect(
+                    x - width / 2,
+                    y + height / 2 - lineWidth,
+                    width,
+                    lineWidth,
+                );
             }
 
             // Draw center of bounding box in green

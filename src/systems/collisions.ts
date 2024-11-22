@@ -5,7 +5,7 @@ import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
 import { System } from "./system.ts";
 
-const FRICTION: number = 0.9;
+const FRICTION: number = 0.5;
 
 export class Collisions extends System {
     public override readonly componentsRequired = new Set([
@@ -70,7 +70,7 @@ export class Collisions extends System {
                         velocity.dx = 0;
 
                         // friction
-                        velocity.dy *= FRICTION;
+                        // velocity.dy *= FRICTION;
                     } else {
                         if (dy > 0) {
                             position.y -= overlapY;

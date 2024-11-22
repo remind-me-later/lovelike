@@ -49,12 +49,12 @@ export class Controller extends System {
             const components = this.ecs.getComponents(entity);
             const velocity = components.get(Velocity)!;
             const controllable = components.get(Controllable)!;
-            // const box = components.get(BoundingBox)!;
+            const box = components.get(BoundingBox)!;
             // const pos = components.get(Position)!;
 
             if (
-                this.upKeyState === State.Pressed
-                // box.collidingBottom == true
+                this.upKeyState === State.Pressed &&
+                box.collidingBottom == true
             ) {
                 velocity.dy = -controllable.yspeed;
             }

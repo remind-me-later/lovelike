@@ -31,19 +31,23 @@ function main() {
     ecs.addComponent(floor, new BoundingBox(painter.width(), 100));
 
     const leftWall = ecs.addEntity();
-    ecs.addComponent(leftWall, new Position(0, painter.height() / 2));
-    ecs.addComponent(leftWall, new BoundingBox(100, painter.height()));
+    ecs.addComponent(leftWall, new Position(25, painter.height() / 2));
+    ecs.addComponent(leftWall, new BoundingBox(50, painter.height()));
 
     const rightWall = ecs.addEntity();
     ecs.addComponent(
         rightWall,
-        new Position(painter.width(), painter.height() / 2),
+        new Position(painter.width() - 25, painter.height() / 2),
     );
-    ecs.addComponent(rightWall, new BoundingBox(100, painter.height()));
+    ecs.addComponent(rightWall, new BoundingBox(50, painter.height()));
 
     const box = ecs.addEntity();
     ecs.addComponent(box, new Position(200, painter.height() - 125));
     ecs.addComponent(box, new BoundingBox(50, 50));
+
+    const floatingBox = ecs.addEntity();
+    ecs.addComponent(floatingBox, new Position(300, 450));
+    ecs.addComponent(floatingBox, new BoundingBox(50, 50));
 
     const ball = ecs.addEntity();
     ecs.addComponent(ball, new Position(100, 10));
