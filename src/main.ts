@@ -49,6 +49,10 @@ function main() {
 	ecs.addComponent(floatingBox, new Position(300, 450));
 	ecs.addComponent(floatingBox, new BoundingBox(50, 50));
 
+	const floatingBox2 = ecs.addEntity();
+	ecs.addComponent(floatingBox2, new Position(400, 400));
+	ecs.addComponent(floatingBox2, new BoundingBox(50, 50));
+
 	const ball = ecs.addEntity();
 	ecs.addComponent(ball, new Position(100, 10));
 	ecs.addComponent(ball, new BoundingBox(20, 20));
