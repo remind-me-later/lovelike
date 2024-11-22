@@ -51,7 +51,7 @@ export class ECS {
 	// API: Systems
 
 	public addSystem(priority: number, system: System): void {
-		if (system.componentsRequired.size == 0) {
+		if (system.componentsRequired.size === 0) {
 			console.warn("System not added: empty Components list.");
 			console.warn(system);
 			return;

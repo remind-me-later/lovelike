@@ -13,6 +13,6 @@ export default defineConfig({
 		minifyWhitespace: true,
 		keepNames: false,
 		color: true,
-		mangleProps: /^[_#]/,
+		mangleProps: /^#/,
 	},
 });
