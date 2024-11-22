@@ -18,7 +18,6 @@
 		"include": ["src/"]
 	},
 	"fmt": {
-		"include": ["src/", "./*.json", "./*.md", "./*.html"],
 		"useTabs": true,
 		"lineWidth": 80,
 		"indentWidth": 4,
