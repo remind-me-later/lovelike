@@ -1,10 +1,10 @@
-import { Position } from "../components/position.ts";
-import { BoundingBox } from "../components/bounding_box.ts";
+import { Position } from "../component/position.ts";
+import { BoundingBox } from "../component/bounding_box.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
-import { System } from "./system.ts";
-import { Controllable } from "../components/controllable.ts";
-import { Velocity } from "../components/velocity.ts";
+import { System } from "./mod.ts";
+import { Controllable } from "../component/controllable.ts";
+import { Velocity } from "../component/velocity.ts";
 
 export class Painter extends System {
 	#canvas: HTMLCanvasElement = document.querySelector(

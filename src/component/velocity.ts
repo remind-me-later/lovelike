@@ -1,5 +1,5 @@
 import { MyMath } from "../util/math.ts";
-import { Component } from "./component.ts";
+import { Component } from "./mod.ts";
 
 export class Velocity extends Component {
 	#dx: number;

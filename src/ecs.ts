@@ -1,7 +1,7 @@
-import { ComponentClass, ComponentContainer } from "./component_container.ts";
-import { Component } from "./components/component.ts";
+import { ComponentClass, ComponentContainer } from "./component/container.ts";
+import { Component } from "./component/mod.ts";
 import { Entity } from "./entity.ts";
-import { System } from "./systems/system.ts";
+import { System } from "./system/mod.ts";
 
 export class ECS {
 	#entities = new Map<Entity, ComponentContainer>();

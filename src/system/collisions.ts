@@ -1,9 +1,9 @@
-import { BoundingBox } from "../components/bounding_box.ts";
-import { Position } from "../components/position.ts";
-import { Velocity } from "../components/velocity.ts";
+import { BoundingBox } from "../component/bounding_box.ts";
+import { Position } from "../component/position.ts";
+import { Velocity } from "../component/velocity.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
-import { System } from "./system.ts";
+import { System } from "./mod.ts";
 
 const FRICTION: number = 0.5;
 

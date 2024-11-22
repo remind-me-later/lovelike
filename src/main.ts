@@ -1,14 +1,14 @@
-import { HasGravity } from "./components/has_gravity.ts";
-import { Position } from "./components/position.ts";
-import { BoundingBox } from "./components/bounding_box.ts";
-import { Velocity } from "./components/velocity.ts";
+import { HasGravity } from "./component/has_gravity.ts";
+import { Position } from "./component/position.ts";
+import { BoundingBox } from "./component/bounding_box.ts";
+import { Velocity } from "./component/velocity.ts";
 import { ECS } from "./ecs.ts";
-import { Painter } from "./systems/painter.ts";
-import { Gravity } from "./systems/gravity.ts";
-import { Collisions } from "./systems/collisions.ts";
-import { Controller } from "./systems/controller.ts";
-import { Controllable } from "./components/controllable.ts";
-import { Movement } from "./systems/movement.ts";
+import { Painter } from "./system/painter.ts";
+import { Gravity } from "./system/gravity.ts";
+import { Collisions } from "./system/collisions.ts";
+import { Controller } from "./system/controller.ts";
+import { Controllable } from "./component/controllable.ts";
+import { Movement } from "./system/movement.ts";
 
 function main() {
 	const ecs = new ECS();
