@@ -54,7 +54,7 @@ export class Controller extends System {
 
 			if (
 				this.#upKeyState === State.Pressed &&
-				box.collidingBottom == true
+				box.collidingBottom === true
 			) {
 				velocity.dy = -controllable.yspeed;
 			}
