@@ -1,5 +1,5 @@
-import { ComponentClass } from "../component_container.ts";
-import { Component } from "../components/component.ts";
+import { ComponentClass } from "../component/container.ts";
+import { Component } from "../component/mod.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
 

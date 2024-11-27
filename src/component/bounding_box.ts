@@ -6,7 +6,26 @@ export class BoundingBox extends Component {
 	public collidingTop = false;
 	public collidingBottom = false;
 
-	constructor(public width: number, public height: number) {
+	#width: number;
+	#height: number;
+
+	constructor(
+		public x: number,
+		public y: number,
+		width: number,
+		height: number,
+	) {
 		super();
+
+		this.#width = width;
+		this.#height = height;
+	}
+
+	public get width() {
+		return this.#width;
+	}
+
+	public get height() {
+		return this.#height;
 	}
 }

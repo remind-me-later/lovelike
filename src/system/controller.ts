@@ -1,6 +1,5 @@
 import { BoundingBox } from "../component/bounding_box.ts";
 import { Controllable } from "../component/controllable.ts";
-import { Position } from "../component/position.ts";
 import { Velocity } from "../component/velocity.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
@@ -22,7 +21,6 @@ export class Controller extends System {
 	public override readonly componentsRequired = new Set([
 		BoundingBox,
 		Velocity,
-		Position,
 	]);
 
 	#upKeyState: State = State.Released;
@@ -50,7 +48,6 @@ export class Controller extends System {
 			const velocity = components.get(Velocity)!;
 			const controllable = components.get(Controllable)!;
 			const box = components.get(BoundingBox)!;
-			// const pos = components.get(Position)!;
 
 			if (
 				this.#upKeyState === State.Pressed &&

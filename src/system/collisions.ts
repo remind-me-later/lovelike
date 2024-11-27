@@ -1,5 +1,4 @@
 import { BoundingBox } from "../component/bounding_box.ts";
-import { Position } from "../component/position.ts";
 import { Velocity } from "../component/velocity.ts";
 import { ECS } from "../ecs.ts";
 import { Entity } from "../entity.ts";
@@ -8,10 +7,7 @@ import { System } from "./mod.ts";
 const FRICTION: number = 0.5;
 
 export class Collisions extends System {
-	public override readonly componentsRequired = new Set([
-		Position,
-		BoundingBox,
-	]);
+	public override readonly componentsRequired = new Set([BoundingBox]);
 
 	constructor(public override readonly ecs: ECS) {
 		super(ecs);
@@ -28,7 +24,6 @@ export class Collisions extends System {
 				return;
 			}
 
-			const position = components.get(Position)!;
 			const box = components.get(BoundingBox)!;
 
 			// Clear previous collisions
@@ -43,13 +38,12 @@ export class Collisions extends System {
 				}
 
 				const otherComponents = this.ecs.getComponents(otherEntity);
-				const otherPosition = otherComponents.get(Position)!;
 				const otherBox = otherComponents.get(BoundingBox)!;
 
 				// Check on which side of 'entity' we are colliding against 'otherEntity'
 				// remember that (x, y) coordinates are at the center of the rectangle
-				const dx = otherPosition.x - position.x;
-				const dy = otherPosition.y - position.y;
+				const dx = otherBox.x - otherBox.x;
+				const dy = otherBox.y - otherBox.y;
 
 				const halfWidth = (box.width + otherBox.width) / 2;
 				const halfHeight = (box.height + otherBox.height) / 2;
@@ -60,10 +54,10 @@ export class Collisions extends System {
 
 					if (overlapX < overlapY) {
 						if (dx > 0) {
-							position.x -= overlapX;
+							box.x -= overlapX;
 							box.collidingRight = true;
 						} else {
-							position.x += overlapX;
+							box.x += overlapX;
 							box.collidingLeft = true;
 						}
 
@@ -73,10 +67,10 @@ export class Collisions extends System {
 						// velocity.dy *= FRICTION;
 					} else {
 						if (dy > 0) {
-							position.y -= overlapY;
+							box.y -= overlapY;
 							box.collidingBottom = true;
 						} else {
-							position.y += overlapY;
+							box.y += overlapY;
 							box.collidingTop = true;
 						}
 
