@@ -15,72 +15,76 @@ export class Collisions extends System {
 
 	public override update(entities: Set<Entity>): void {
 		// Check for collisions
-		entities.forEach((entity) => {
-			const components = this.ecs.getComponents(entity);
-			const velocity = components.get(Velocity);
+		for (const entity of entities) {
+			this.#checkNearbyCollisions(entity, entities);
+		}
+	}
 
-			if (!velocity) {
-				// We are immovable
+	#checkNearbyCollisions(entity: Entity, nearby: Iterable<Entity>): void {
+		const components = this.ecs.getComponents(entity);
+		const velocity = components.get(Velocity);
+
+		if (!velocity) {
+			// We are immovable
+			return;
+		}
+
+		const box = components.get(BoundingBox)!;
+
+		// Clear previous collisions
+		box.collidingTop = false;
+		box.collidingBottom = false;
+		box.collidingLeft = false;
+		box.collidingRight = false;
+
+		for (const otherEntity of nearby) {
+			if (entity === otherEntity) {
 				return;
 			}
 
-			const box = components.get(BoundingBox)!;
+			const otherComponents = this.ecs.getComponents(otherEntity);
+			const otherBox = otherComponents.get(BoundingBox)!;
 
-			// Clear previous collisions
-			box.collidingTop = false;
-			box.collidingBottom = false;
-			box.collidingLeft = false;
-			box.collidingRight = false;
+			// Check on which side of 'entity' we are colliding against 'otherEntity'
+			// remember that (x, y) coordinates are at the center of the rectangle
+			const dx = otherBox.x - box.x;
+			const dy = otherBox.y - box.y;
 
-			entities.forEach((otherEntity) => {
-				if (entity === otherEntity) {
-					return;
-				}
+			const halfWidth = (box.width + otherBox.width) / 2;
+			const halfHeight = (box.height + otherBox.height) / 2;
 
-				const otherComponents = this.ecs.getComponents(otherEntity);
-				const otherBox = otherComponents.get(BoundingBox)!;
+			if (Math.abs(dx) < halfWidth && Math.abs(dy) < halfHeight) {
+				const overlapX = halfWidth - Math.abs(dx);
+				const overlapY = halfHeight - Math.abs(dy);
 
-				// Check on which side of 'entity' we are colliding against 'otherEntity'
-				// remember that (x, y) coordinates are at the center of the rectangle
-				const dx = otherBox.x - otherBox.x;
-				const dy = otherBox.y - otherBox.y;
-
-				const halfWidth = (box.width + otherBox.width) / 2;
-				const halfHeight = (box.height + otherBox.height) / 2;
-
-				if (Math.abs(dx) < halfWidth && Math.abs(dy) < halfHeight) {
-					const overlapX = halfWidth - Math.abs(dx);
-					const overlapY = halfHeight - Math.abs(dy);
-
-					if (overlapX < overlapY) {
-						if (dx > 0) {
-							box.x -= overlapX;
-							box.collidingRight = true;
-						} else {
-							box.x += overlapX;
-							box.collidingLeft = true;
-						}
-
-						velocity.dx = 0;
-
-						// friction
-						// velocity.dy *= FRICTION;
+				if (overlapX < overlapY) {
+					if (dx > 0) {
+						box.x -= overlapX;
+						box.collidingRight = true;
 					} else {
-						if (dy > 0) {
-							box.y -= overlapY;
-							box.collidingBottom = true;
-						} else {
-							box.y += overlapY;
-							box.collidingTop = true;
-						}
-
-						velocity.dy = 0;
-
-						// friction
-						velocity.dx *= FRICTION;
+						box.x += overlapX;
+						box.collidingLeft = true;
 					}
+
+					velocity.dx = 0;
+
+					// friction
+					// velocity.dy *= FRICTION;
+				} else {
+					if (dy > 0) {
+						box.y -= overlapY;
+						box.collidingBottom = true;
+					} else {
+						box.y += overlapY;
+						box.collidingTop = true;
+					}
+
+					velocity.dy = 0;
+
+					// friction
+					velocity.dx *= FRICTION;
 				}
-			});
-		});
+			}
+		}
 	}
 }

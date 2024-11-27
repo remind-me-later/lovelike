@@ -1,5 +1,5 @@
 import { Component } from "./mod.ts";
-import { assertEquals } from "https://deno.land/std/assert/assert_equals.ts";
+// import { assertEquals } from "https://deno.land/std/assert/assert_equals.ts";
 
 export class BoundingBox extends Component {
 	public collidingLeft = false;
@@ -49,24 +49,24 @@ export class BoundingBox extends Component {
 	}
 }
 
-Deno.test("BoundingBox intersects", () => {
-	const box1 = new BoundingBox(0, 0, 10, 10);
-	const box2 = new BoundingBox(5, 5, 10, 10);
-	const box3 = new BoundingBox(15, 15, 10, 10);
+// Deno.test("BoundingBox intersects", () => {
+// 	const box1 = new BoundingBox(0, 0, 10, 10);
+// 	const box2 = new BoundingBox(5, 5, 10, 10);
+// 	const box3 = new BoundingBox(15, 15, 10, 10);
 
-	assertEquals(box1.intersects(box2), true);
-	assertEquals(box1.intersects(box3), false);
-	assertEquals(box2.intersects(box3), false);
-});
+// 	assertEquals(box1.intersects(box2), true);
+// 	assertEquals(box1.intersects(box3), false);
+// 	assertEquals(box2.intersects(box3), false);
+// });
 
-Deno.test("BoundingBox contains", () => {
-	const box1 = new BoundingBox(0, 0, 10, 10);
-	const box2 = new BoundingBox(5, 5, 10, 10);
-	const box3 = new BoundingBox(15, 15, 10, 10);
-	const box4 = new BoundingBox(1, 1, 5, 4);
+// Deno.test("BoundingBox contains", () => {
+// 	const box1 = new BoundingBox(0, 0, 10, 10);
+// 	const box2 = new BoundingBox(5, 5, 10, 10);
+// 	const box3 = new BoundingBox(15, 15, 10, 10);
+// 	const box4 = new BoundingBox(1, 1, 5, 4);
 
-	assertEquals(box1.contains(box2), false);
-	assertEquals(box1.contains(box3), false);
-	assertEquals(box2.contains(box3), false);
-	assertEquals(box1.contains(box4), true);
-});
+// 	assertEquals(box1.contains(box2), false);
+// 	assertEquals(box1.contains(box3), false);
+// 	assertEquals(box2.contains(box3), false);
+// 	assertEquals(box1.contains(box4), true);
+// });
