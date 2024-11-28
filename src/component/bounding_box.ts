@@ -1,5 +1,4 @@
 import { Component } from "./mod.ts";
-// import { assertEquals } from "https://deno.land/std/assert/assert_equals.ts";
 
 export class BoundingBox extends Component {
 	public collidingLeft = false;
@@ -47,26 +46,20 @@ export class BoundingBox extends Component {
 			this.y + this.height > other.y + other.height
 		);
 	}
+
+	public get leftMostPoint(): number {
+		return this.x - this.width / 2;
+	}
+
+	public get rightMostPoint(): number {
+		return this.x + this.width / 2;
+	}
+
+	public get topMostPoint(): number {
+		return this.y - this.height / 2;
+	}
+
+	public get bottomMostPoint(): number {
+		return this.y + this.height / 2;
+	}
 }
-
-// Deno.test("BoundingBox intersects", () => {
-// 	const box1 = new BoundingBox(0, 0, 10, 10);
-// 	const box2 = new BoundingBox(5, 5, 10, 10);
-// 	const box3 = new BoundingBox(15, 15, 10, 10);
-
-// 	assertEquals(box1.intersects(box2), true);
-// 	assertEquals(box1.intersects(box3), false);
-// 	assertEquals(box2.intersects(box3), false);
-// });
-
-// Deno.test("BoundingBox contains", () => {
-// 	const box1 = new BoundingBox(0, 0, 10, 10);
-// 	const box2 = new BoundingBox(5, 5, 10, 10);
-// 	const box3 = new BoundingBox(15, 15, 10, 10);
-// 	const box4 = new BoundingBox(1, 1, 5, 4);
-
-// 	assertEquals(box1.contains(box2), false);
-// 	assertEquals(box1.contains(box3), false);
-// 	assertEquals(box2.contains(box3), false);
-// 	assertEquals(box1.contains(box4), true);
-// });

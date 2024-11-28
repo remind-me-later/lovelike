@@ -6,6 +6,8 @@ import { Controllable } from "../component/controllable.ts";
 import { Velocity } from "../component/velocity.ts";
 
 export class Painter extends System {
+	protected override readonly componentsRequired = new Set([BoundingBox]);
+
 	#canvas: HTMLCanvasElement = document.querySelector(
 		"canvas",
 	) as HTMLCanvasElement;
@@ -13,8 +15,6 @@ export class Painter extends System {
 	#ctx: CanvasRenderingContext2D = this.#canvas.getContext(
 		"2d",
 	) as CanvasRenderingContext2D;
-
-	public override readonly componentsRequired = new Set([BoundingBox]);
 
 	constructor(public override readonly ecs: ECS) {
 		super(ecs);

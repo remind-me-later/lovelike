@@ -7,7 +7,8 @@ import { System } from "./mod.ts";
 const FRICTION: number = 0.5;
 
 export class Collisions extends System {
-	public override readonly componentsRequired = new Set([BoundingBox]);
+	protected override readonly componentsRequired = new Set([BoundingBox]);
+	static readonly #cellSize = 32;
 
 	constructor(public override readonly ecs: ECS) {
 		super(ecs);
@@ -15,8 +16,79 @@ export class Collisions extends System {
 
 	public override update(entities: Set<Entity>): void {
 		// Check for collisions
+		// for (const entity of entities) {
+		// 	this.#checkNearbyCollisions(entity, entities);
+		// }
+
+		// Spatial hashing
+		const hash: Map<number, Set<Entity>> = new Map();
+
 		for (const entity of entities) {
-			this.#checkNearbyCollisions(entity, entities);
+			const components = this.ecs.getComponents(entity);
+			const box = components.get(BoundingBox)!;
+
+			const leftMostCell = Math.floor(
+				box.leftMostPoint / Collisions.#cellSize,
+			);
+			const rightMostCell = Math.floor(
+				box.rightMostPoint / Collisions.#cellSize,
+			);
+			const topMostCell = Math.floor(
+				box.topMostPoint / Collisions.#cellSize,
+			);
+			const bottomMostCell = Math.floor(
+				box.bottomMostPoint / Collisions.#cellSize,
+			);
+
+			for (let i = leftMostCell; i <= rightMostCell; i++) {
+				for (let j = topMostCell; j <= bottomMostCell; j++) {
+					const key = i + j * 1000;
+
+					if (!hash.has(key)) {
+						hash.set(key, new Set());
+					}
+
+					hash.get(key)!.add(entity);
+				}
+			}
+		}
+
+		for (const entity of entities) {
+			const components = this.ecs.getComponents(entity);
+			const box = components.get(BoundingBox)!;
+
+			const leftMostCell = Math.floor(
+				box.leftMostPoint / Collisions.#cellSize,
+			);
+			const rightMostCell = Math.floor(
+				box.rightMostPoint / Collisions.#cellSize,
+			);
+			const topMostCell = Math.floor(
+				box.topMostPoint / Collisions.#cellSize,
+			);
+			const bottomMostCell = Math.floor(
+				box.bottomMostPoint / Collisions.#cellSize,
+			);
+
+			const nearbyEntities = new Set<Entity>();
+
+			for (let i = leftMostCell; i <= rightMostCell; i++) {
+				for (let j = topMostCell; j <= bottomMostCell; j++) {
+					const key = i + j * 1000;
+
+					if (hash.has(key)) {
+						for (const otherEntity of hash.get(key)!) {
+							if (entity === otherEntity) {
+								continue;
+							}
+
+							nearbyEntities.add(otherEntity);
+						}
+					}
+				}
+			}
+
+			this.#checkNearbyCollisions(entity, nearbyEntities);
 		}
 	}
 
@@ -38,10 +110,6 @@ export class Collisions extends System {
 		box.collidingRight = false;
 
 		for (const otherEntity of nearby) {
-			if (entity === otherEntity) {
-				return;
-			}
-
 			const otherComponents = this.ecs.getComponents(otherEntity);
 			const otherBox = otherComponents.get(BoundingBox)!;
 

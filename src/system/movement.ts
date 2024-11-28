@@ -5,7 +5,7 @@ import { Entity } from "../entity.ts";
 import { System } from "./mod.ts";
 
 export class Movement extends System {
-	public override readonly componentsRequired = new Set([
+	protected override readonly componentsRequired = new Set([
 		BoundingBox,
 		Velocity,
 	]);
