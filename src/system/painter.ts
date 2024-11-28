@@ -16,18 +16,18 @@ export class Painter extends System {
 		"2d",
 	) as CanvasRenderingContext2D;
 
-	constructor(public override readonly ecs: ECS) {
+	constructor(ecs: ECS) {
 		super(ecs);
 
 		this.#canvas.width = 800;
 		this.#canvas.height = 600;
 	}
 
-	public width(): number {
+	public get width(): number {
 		return this.#canvas.width;
 	}
 
-	public height(): number {
+	public get height(): number {
 		return this.#canvas.height;
 	}
 

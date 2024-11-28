@@ -26,9 +26,9 @@ function main() {
 	ecs.addComponent(
 		floor,
 		new BoundingBox(
-			painter.width() / 2,
-			painter.height() - 50,
-			painter.width(),
+			painter.width / 2,
+			painter.height - 50,
+			painter.width,
 			100,
 		),
 	);
@@ -36,22 +36,22 @@ function main() {
 	const leftWall = ecs.addEntity();
 	ecs.addComponent(
 		leftWall,
-		new BoundingBox(25, painter.height() / 2, 50, painter.height()),
+		new BoundingBox(25, painter.height / 2, 50, painter.height),
 	);
 
 	const rightWall = ecs.addEntity();
 	ecs.addComponent(
 		rightWall,
 		new BoundingBox(
-			painter.width() - 25,
-			painter.height() / 2,
+			painter.width - 25,
+			painter.height / 2,
 			50,
-			painter.height(),
+			painter.height,
 		),
 	);
 
 	const box = ecs.addEntity();
-	ecs.addComponent(box, new BoundingBox(200, painter.height() - 125, 50, 50));
+	ecs.addComponent(box, new BoundingBox(200, painter.height - 125, 50, 50));
 
 	const floatingBox = ecs.addEntity();
 	ecs.addComponent(floatingBox, new BoundingBox(300, 450, 50, 50));

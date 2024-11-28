@@ -7,7 +7,7 @@ export class ComponentContainer {
 	// deno-lint-ignore ban-types
 	#map = new Map<Function, Component>();
 
-	public add<T extends Component>(component: T): void {
+	public add<T extends Component>(component: T) {
 		this.#map.set(component.constructor, component);
 	}
 

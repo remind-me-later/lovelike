@@ -10,7 +10,7 @@ export class Movement extends System {
 		Velocity,
 	]);
 
-	constructor(public override readonly ecs: ECS) {
+	constructor(ecs: ECS) {
 		super(ecs);
 	}
 

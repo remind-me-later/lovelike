@@ -29,6 +29,22 @@ export class BoundingBox extends Component {
 		return this.#height;
 	}
 
+	public get leftMostPoint(): number {
+		return this.x - this.width / 2;
+	}
+
+	public get rightMostPoint(): number {
+		return this.x + this.width / 2;
+	}
+
+	public get topMostPoint(): number {
+		return this.y - this.height / 2;
+	}
+
+	public get bottomMostPoint(): number {
+		return this.y + this.height / 2;
+	}
+
 	public intersects(other: BoundingBox) {
 		return (
 			this.x < other.x + other.width &&
@@ -45,21 +61,5 @@ export class BoundingBox extends Component {
 			this.y < other.y &&
 			this.y + this.height > other.y + other.height
 		);
-	}
-
-	public get leftMostPoint(): number {
-		return this.x - this.width / 2;
-	}
-
-	public get rightMostPoint(): number {
-		return this.x + this.width / 2;
-	}
-
-	public get topMostPoint(): number {
-		return this.y - this.height / 2;
-	}
-
-	public get bottomMostPoint(): number {
-		return this.y + this.height / 2;
 	}
 }

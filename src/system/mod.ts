@@ -8,11 +8,19 @@ export abstract class System {
 		ComponentClass<Component>
 	>;
 
+	#ecs: ECS;
+
 	public abstract update(entities: Set<Entity>): void;
 
-	constructor(public readonly ecs: ECS) {}
+	constructor(ecs: ECS) {
+		this.#ecs = ecs;
+	}
 
 	public get componentsRequired(): Set<ComponentClass<Component>> {
 		return this._componentsRequired;
+	}
+
+	public get ecs(): ECS {
+		return this.#ecs;
 	}
 }

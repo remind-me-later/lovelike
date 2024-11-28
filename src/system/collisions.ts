@@ -10,7 +10,7 @@ export class Collisions extends System {
 	protected override readonly _componentsRequired = new Set([BoundingBox]);
 	static readonly #cellSize = 32;
 
-	constructor(public override readonly ecs: ECS) {
+	constructor(ecs: ECS) {
 		super(ecs);
 	}
 

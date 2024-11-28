@@ -10,7 +10,7 @@ export class Gravity extends System {
 		HasGravity,
 	]);
 
-	constructor(public override readonly ecs: ECS) {
+	constructor(ecs: ECS) {
 		super(ecs);
 	}
 

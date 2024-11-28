@@ -28,7 +28,7 @@ export class Controller extends System {
 	#leftKeyState: State = State.Released;
 	#rightKeyState: State = State.Released;
 
-	constructor(public override readonly ecs: ECS) {
+	constructor(ecs: ECS) {
 		super(ecs);
 
 		globalThis.addEventListener(
