@@ -7,7 +7,7 @@ import { System } from "./mod.ts";
 const FRICTION: number = 0.5;
 
 export class Collisions extends System {
-	protected override readonly componentsRequired = new Set([BoundingBox]);
+	protected override readonly _componentsRequired = new Set([BoundingBox]);
 	static readonly #cellSize = 32;
 
 	constructor(public override readonly ecs: ECS) {

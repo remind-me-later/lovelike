@@ -6,7 +6,7 @@ import { Controllable } from "../component/controllable.ts";
 import { Velocity } from "../component/velocity.ts";
 
 export class Painter extends System {
-	protected override readonly componentsRequired = new Set([BoundingBox]);
+	protected override readonly _componentsRequired = new Set([BoundingBox]);
 
 	#canvas: HTMLCanvasElement = document.querySelector(
 		"canvas",

@@ -18,7 +18,7 @@ enum State {
 }
 
 export class Controller extends System {
-	protected override readonly componentsRequired = new Set([
+	protected override readonly _componentsRequired = new Set([
 		BoundingBox,
 		Velocity,
 	]);

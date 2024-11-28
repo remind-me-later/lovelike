@@ -5,7 +5,7 @@ import { Entity } from "../entity.ts";
 import { System } from "./mod.ts";
 
 export class Gravity extends System {
-	protected override readonly componentsRequired = new Set([
+	protected override readonly _componentsRequired = new Set([
 		Velocity,
 		HasGravity,
 	]);
