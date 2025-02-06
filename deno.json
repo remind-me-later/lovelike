@@ -6,7 +6,7 @@
 	"compilerOptions": {
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
-		"lib": ["esnext", "dom", "deno.ns"],
+		"lib": ["esnext", "dom"],
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,
